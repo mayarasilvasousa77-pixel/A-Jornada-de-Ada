@@ -1,0 +1,137 @@
+/* =====================================================
+   A Jornada de Ada Lovelace — estilos
+   Paleta: roxo escuro, dourado, bege e vinho
+   ===================================================== */
+:root{
+  --roxo:#1d0f33; --roxo2:#3a1a5c; --dourado:#e0b25a; --dourado2:#f6d98f;
+  --bege:#f3e7cf; --vinho:#7a2338; --texto:#f3e7cf;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Poppins',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:19px}
+html,body{height:100%;overflow:hidden;background:var(--roxo);color:var(--texto);font-family:var(--sans);-webkit-user-select:none;user-select:none;touch-action:none}
+[hidden]{display:none!important}
+
+/* ---------- Telas ---------- */
+.tela{position:fixed;inset:0;display:none}
+.tela.ativa{display:block;animation:entrar .8s ease}
+@keyframes entrar{from{opacity:0}to{opacity:1}}
+.fundo-londres{position:absolute;inset:0;background:url(../imagens/londres.svg) center/cover,var(--roxo);animation:respirar 18s ease-in-out infinite alternate}
+@keyframes respirar{from{transform:scale(1)}to{transform:scale(1.07)}}
+.fundo-londres::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,transparent 30%,rgba(20,8,40,.75))}
+.brilhos{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.brilhos i{position:absolute;bottom:-10px;width:4px;height:4px;border-radius:50%;background:var(--dourado2);box-shadow:0 0 8px var(--dourado);opacity:0;animation:subir linear infinite}
+@keyframes subir{0%{opacity:0;transform:translateY(0)}15%{opacity:.9}100%{opacity:0;transform:translateY(-100vh) translateX(40px)}}
+
+/* ---------- Tela inicial / vitória ---------- */
+.inicial-conteudo{position:relative;height:100%;display:flex;align-items:center;justify-content:center;gap:5vw;padding:4vh 6vw;flex-wrap:wrap}
+.inicial-texto{max-width:560px}
+.sobretitulo{color:var(--dourado);letter-spacing:.3em;font-size:.8rem;text-transform:uppercase;margin-bottom:1rem}
+h1{font-family:var(--serif);font-size:clamp(2.4rem,6.5vw,5rem);line-height:1;color:var(--bege);text-shadow:0 4px 30px rgba(0,0,0,.6)}
+h1 span{display:block;color:var(--dourado);font-style:italic}
+.subtitulo{margin:1.2rem 0 2rem;line-height:1.7;opacity:.9;font-size:clamp(1rem,1.8vw,1.2rem)}
+.inicial-ada{position:relative;animation:flutuar 5s ease-in-out infinite}
+.inicial-ada img{display:block;height:min(60vh,520px);border-radius:200px 200px 16px 16px;border:3px solid var(--dourado);box-shadow:0 0 60px rgba(224,178,90,.35),0 20px 50px rgba(0,0,0,.6)}
+.inicial-ada figcaption{text-align:center;margin-top:.8rem;font-family:var(--serif);color:var(--dourado2);font-size:1.15rem}
+@keyframes flutuar{50%{transform:translateY(-12px)}}
+.botoes{display:flex;gap:.8rem;flex-wrap:wrap}.botoes.coluna{flex-direction:column;margin-top:1rem}
+
+/* ---------- Botões ---------- */
+.btn{font:600 1rem var(--sans);padding:.85rem 1.8rem;border-radius:999px;border:1.5px solid var(--dourado);background:rgba(29,15,51,.7);color:var(--dourado2);cursor:pointer;transition:.25s;touch-action:manipulation}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(224,178,90,.35)}
+.btn.dourado{background:linear-gradient(135deg,var(--dourado2),var(--dourado));color:var(--roxo)}
+.btn-mini{font:600 .85rem var(--sans);padding:.5rem .8rem;border-radius:8px;border:1px solid rgba(224,178,90,.5);background:rgba(29,15,51,.7);color:var(--dourado2);cursor:pointer}
+
+/* ---------- Jogo ---------- */
+#cena{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hud{position:absolute;top:0;left:0;right:0;display:flex;gap:1rem;align-items:center;padding:.6rem 1rem;background:linear-gradient(rgba(20,8,40,.92),rgba(20,8,40,0));z-index:5}
+.hud-item small,.hud-progresso small{display:block;font-size:.7rem;letter-spacing:.2em;color:var(--dourado);opacity:.85}
+.hud-item b{font-family:var(--serif);font-size:1.5rem;color:var(--bege)}
+.hud-progresso{flex:1;min-width:80px}
+.barra{height:8px;border-radius:8px;background:rgba(243,231,207,.18);overflow:hidden;margin-top:.3rem}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vinho),var(--dourado));transition:width .6s}
+
+/* ---------- Monstro da Matemática ---------- */
+#hud-monstro{
+  position:absolute;top:74px;right:14px;z-index:5;
+  display:flex;align-items:center;gap:.65rem;
+  padding:.55rem .8rem;border:1px solid rgba(224,178,90,.55);
+  border-radius:12px;background:rgba(29,15,51,.88);
+  box-shadow:0 5px 22px rgba(0,0,0,.25);backdrop-filter:blur(5px)
+}
+.monstro-hud-texto{display:flex;flex-direction:column;gap:2px;min-width:92px}
+.monstro-hud-texto small{font-size:.65rem;letter-spacing:.1em;color:var(--dourado2);white-space:nowrap}
+.monstro-hud-texto b{font:700 1.15rem var(--serif);color:var(--bege)}
+.vidas-monstro{display:grid;grid-template-columns:repeat(5,15px);gap:3px}
+.vidas-monstro span{font-size:16px;line-height:1;text-shadow:0 0 7px rgba(224,122,142,.45)}
+.vida-cheia{color:#e982a4;animation:pulsarVida 1.8s ease-in-out infinite}
+.vida-vazia{color:rgba(243,231,207,.2);text-shadow:none!important}
+#hud-monstro.monstro-derrotado{border-color:#7fd08f}
+#hud-monstro.monstro-derrotado .monstro-hud-texto b{color:#9be4ad}
+#hud-monstro.monstro-derrotado .monstro-hud-texto small{color:#9be4ad}
+@keyframes pulsarVida{50%{transform:scale(1.13)}}
+@media(max-width:760px){
+  #hud-monstro{top:58px;right:8px;padding:.4rem .55rem;gap:.45rem}
+  .monstro-hud-texto{min-width:74px}
+  .monstro-hud-texto small{font-size:.55rem}
+  .monstro-hud-texto b{font-size:.95rem}
+  .vidas-monstro{grid-template-columns:repeat(5,11px);gap:2px}
+  .vidas-monstro span{font-size:12px}
+}
+@media(max-width:420px){
+  #hud-monstro{top:57px;right:7px;transform:scale(.9);transform-origin:top right}
+}
+#missao{position:absolute;top:70px;left:12px;width:min(340px,44vw);background:rgba(29,15,51,.82);border:1px solid rgba(224,178,90,.45);border-radius:12px;padding:.8rem .9rem;z-index:4;backdrop-filter:blur(4px)}
+#missao h3{font-family:var(--serif);color:var(--dourado2);font-size:1.15rem}
+#missao p{font-size:.85rem;line-height:1.5;opacity:.85;margin:.3rem 0 .5rem}
+#missao li{list-style:none;font-size:.9rem;padding:.2rem 0;opacity:.8}
+#missao li::before{content:"◇ ";color:var(--dourado)}
+#missao li.ok{opacity:1;color:var(--dourado2);text-decoration:line-through}
+#missao li.ok::before{content:"◆ "}
+#joystick{display:none;position:absolute;left:22px;bottom:28px;width:130px;height:130px;border-radius:50%;background:rgba(243,231,207,.12);border:2px solid rgba(224,178,90,.55);z-index:6}
+#joystick-bola{position:absolute;left:40px;top:40px;width:50px;height:50px;border-radius:50%;background:radial-gradient(var(--dourado2),var(--dourado))}
+@media (pointer:coarse),(max-width:760px){#joystick{display:block}}
+@media (max-width:760px){html{font-size:17px}.hud-progresso small{display:none}.btn-mini .rotulo{display:none}.hud-item b{font-size:1.25rem}#hud{gap:.6rem}.hud-progresso{min-width:40px}.btn-mini{white-space:nowrap;font-size:.75rem}#missao{display:none}.btn-mini{padding:.4rem .5rem}#hud{gap:.6rem}}
+
+/* ---------- Janelas ---------- */
+.sobreposicao{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(15,6,30,.78);backdrop-filter:blur(3px);animation:entrar .3s}
+.cartao{display:flex;max-width:760px;width:100%;max-height:92vh;background:linear-gradient(160deg,#2a1447,#1d0f33);border:2px solid var(--dourado);border-radius:18px;box-shadow:0 0 50px rgba(224,178,90,.25);overflow:hidden;animation:pop .35s}
+.cartao.estreito{max-width:480px}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.cartao img{width:36%;object-fit:cover;border-right:2px solid var(--dourado)}
+.cartao-corpo{padding:1.4rem 1.5rem;overflow-y:auto;flex:1}
+.cartao-corpo small{color:var(--dourado);letter-spacing:.2em;font-size:.75rem;text-transform:uppercase}
+.cartao-corpo h2{font-family:var(--serif);font-size:1.7rem;color:var(--bege);margin:.3rem 0 .6rem}
+.cartao-corpo p{line-height:1.65;font-size:1.02rem}
+#modal-opcoes{display:grid;gap:.5rem;margin:1rem 0 .4rem}
+.opcao{text-align:left;font:500 1rem var(--sans);padding:.7rem 1rem;border-radius:10px;border:1.5px solid rgba(224,178,90,.5);background:rgba(243,231,207,.07);color:var(--bege);cursor:pointer;transition:.2s}
+.opcao:hover:not(:disabled){background:rgba(224,178,90,.2)}
+.opcao.certa{background:#2f6b3f;border-color:#7fd08f}
+.opcao.errada{background:var(--vinho);border-color:#e07a8e}
+.opcao:disabled{cursor:default}
+#modal-feedback{margin:.6rem 0 1rem;font-size:.98rem;padding:.7rem .9rem;border-left:3px solid var(--dourado);background:rgba(243,231,207,.07);border-radius:6px}
+#modal-feedback:empty{display:none}
+#modal-btn{margin-top:.8rem}
+.instrucoes{margin:1rem 0 1.4rem;padding-left:1.1rem;line-height:1.8;font-size:1rem}
+@media (max-width:640px){.cartao{flex-direction:column}.cartao img{width:100%;height:150px;border-right:0;border-bottom:2px solid var(--dourado)}}
+
+/* ---------- Transição, toast, vitória ---------- */
+#transicao{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle,var(--roxo2),#0f0620);animation:fade 2.6s ease forwards}
+@keyframes fade{0%{opacity:0}20%,80%{opacity:1}100%{opacity:0}}
+#transicao p{color:var(--dourado);letter-spacing:.35em;font-size:.85rem}
+#transicao h2{font-family:var(--serif);font-size:clamp(2rem,6vw,4rem);color:var(--bege);margin:.5rem 1rem}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:25;background:var(--vinho);border:1px solid var(--dourado);color:var(--bege);padding:.7rem 1.2rem;border-radius:999px;font-size:1rem;max-width:92vw;text-align:center;animation:pop .3s}
+.vitoria-conteudo{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem}
+.estrelas{font-size:3rem;color:var(--dourado);letter-spacing:.3rem;margin:.5rem 0;text-shadow:0 0 20px var(--dourado)}
+.estrelas .vazia{opacity:.25}
+.vit-numeros{display:flex;gap:2.5rem;margin:.5rem 0 1rem}
+.vit-numeros b{display:block;font-family:var(--serif);font-size:2.6rem;color:var(--dourado2)}
+.vit-numeros small{letter-spacing:.2em;font-size:.65rem;color:var(--dourado)}
+blockquote{max-width:520px;font-family:var(--serif);font-size:1.3rem;font-style:italic;margin:.5rem 0 1.6rem}
+blockquote cite{display:block;font:.75rem var(--sans);opacity:.7;margin-top:.4rem}
+
+/* Tela exibida quando o monstro alcança Ada */
+#capturada .cartao { border: 2px solid #b98be4; box-shadow: 0 0 35px rgba(155, 93, 210, .45); }
+#capturada .sobretitulo { color: #e5bdff; letter-spacing: 2px; text-transform: uppercase; }
+#capturada h2 { color: #f6d98f; }
+#capturada p { line-height: 1.65; }

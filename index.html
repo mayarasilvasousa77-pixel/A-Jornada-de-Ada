@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>A Jornada de Ada Lovelace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ TELA INICIAL ============ -->
+  <section id="tela-inicial" class="tela ativa">
+    <div class="fundo-londres"></div>
+    <div class="brilhos" id="brilhos"></div>
+    <div class="inicial-conteudo">
+      <div class="inicial-texto">
+        <p class="sobretitulo">✦ Um jogo educativo ✦</p>
+        <h1>A Jornada de <span>Ada Lovelace</span></h1>
+        <p class="subtitulo">Explore a Londres do século XIX, colete pistas e descubra a história da mulher que enxergou o futuro das máquinas.</p>
+        <div class="botoes">
+          <button id="btn-jogar" class="btn dourado">Jogar</button>
+          <button id="btn-continuar" class="btn" hidden>Continuar</button>
+          <button id="btn-como" class="btn">Como jogar</button>
+        </div>
+      </div>
+      <figure class="inicial-ada">
+        <img src="imagens/ada-titulo.jpg" alt="Retrato ilustrado de Ada Lovelace">
+        <figcaption>Ada Lovelace · 1815 – 1852</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ JOGO ============ -->
+  <section id="jogo" class="tela">
+    <canvas id="cena"></canvas>
+
+    <!-- Barra superior: fase, pontos, pistas e progresso -->
+    <header id="hud">
+      <div class="hud-item"><small>FASE</small><b id="hud-fase">1/3</b></div>
+      <div class="hud-item"><small>PONTOS</small><b id="hud-pontos">0</b></div>
+      <div class="hud-item"><small>PISTAS</small><b id="hud-pistas">0/0</b></div>
+      <div class="hud-progresso"><small>PROGRESSO DA JORNADA</small><div class="barra"><i id="hud-barra"></i></div></div>
+      <button id="btn-reiniciar" class="btn-mini" title="Reiniciar fase">↻ <span class="rotulo">Reiniciar fase</span></button>
+      <button id="btn-menu" class="btn-mini" title="Menu">☰</button>
+    </header>
+
+    <!-- Vidas do Monstro da Matemática -->
+    <div id="hud-monstro" aria-live="polite">
+      <div class="monstro-hud-texto">
+        <small>MONSTRO DA MATEMÁTICA</small>
+        <b id="monstro-contagem">10/10</b>
+      </div>
+      <div id="monstro-vidas" class="vidas-monstro" aria-label="Vidas restantes do monstro"></div>
+    </div>
+
+    <!-- Painel de missão (lista de objetivos da fase) -->
+    <aside id="missao">
+      <h3 id="missao-titulo"></h3>
+      <p id="missao-desc"></p>
+      <ul id="missao-lista"></ul>
+    </aside>
+
+    <!-- Joystick virtual (aparece em celulares) -->
+    <div id="joystick"><div id="joystick-bola"></div></div>
+  </section>
+
+  <!-- ============ JANELA DE PISTA / PERGUNTA ============ -->
+  <div id="modal" class="sobreposicao" hidden>
+    <div class="cartao">
+      <img id="modal-img" alt="" hidden>
+      <div class="cartao-corpo">
+        <small id="modal-etiqueta"></small>
+        <h2 id="modal-titulo"></h2>
+        <p id="modal-texto"></p>
+        <div id="modal-opcoes"></div>
+        <p id="modal-feedback"></p>
+        <button id="modal-btn" class="btn dourado"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Como jogar -->
+  <div id="como" class="sobreposicao" hidden>
+    <div class="cartao estreito"><div class="cartao-corpo">
+      <h2>Como jogar</h2>
+      <ul class="instrucoes">
+        <li><b>Mover:</b> setas do teclado ou W A S D (no celular, use o joystick).</li>
+        <li><b>Explorar:</b> encontre os objetos brilhantes ✦ espalhados pelo cenário.</li>
+        <li><b>Perigo:</b> se o monstro alcançar Ada, você terá que tentar a fase novamente. Ao abrir um desafio, o jogo pausa para você responder.</li>
+        <li><b>Monstro:</b> cada desafio concluído tira uma vida dele.</li>
+      </ul>
+      <button class="btn dourado" data-fechar="como">Entendi</button>
+    </div></div>
+  </div>
+
+  <!-- Menu de pausa -->
+  <div id="menu" class="sobreposicao" hidden>
+    <div class="cartao estreito"><div class="cartao-corpo">
+      <h2>Pausa</h2>
+      <div class="botoes coluna">
+        <button class="btn dourado" data-fechar="menu">Continuar jogando</button>
+        <button id="menu-como" class="btn">Como jogar</button>
+        <button id="menu-inicio" class="btn">Voltar ao início</button>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Ada foi alcançada pelo monstro -->
+  <div id="capturada" class="sobreposicao" hidden>
+    <div class="cartao estreito"><div class="cartao-corpo">
+      <p class="sobretitulo">O monstro alcançou Ada!</p>
+      <h2>Você precisa correr!</h2>
+      <p>Explore o cenário, encontre as pistas e resolva os desafios antes que o monstro chegue perto demais.</p>
+      <div class="botoes coluna">
+        <button id="btn-tentar-novamente" class="btn dourado">Tentar novamente</button>
+        <button id="btn-capturada-menu" class="btn">Voltar ao início</button>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Transição entre fases -->
+  <div id="transicao" hidden><p id="trans-num"></p><h2 id="trans-nome"></h2><p id="trans-sub"></p></div>
+
+  <!-- Tela de vitória -->
+  <section id="vitoria" class="tela">
+    <div class="fundo-londres"></div><div class="brilhos" id="brilhos2"></div>
+    <div class="vitoria-conteudo">
+      <p class="sobretitulo">✦ Jornada concluída ✦</p>
+      <h1>Parabéns, <span>exploradora!</span></h1>
+      <p class="subtitulo">Você acompanhou Ada da Londres de 1815 até o legado que inspirou a computação.</p>
+      <div class="estrelas" id="vit-estrelas"></div>
+      <div class="vit-numeros"><div><b id="vit-pontos">0</b><small>pontos</small></div><div><b id="vit-pistas">0</b><small>pistas</small></div></div>
+      <blockquote>“A imaginação é a faculdade da descoberta.”<cite>— Ada Lovelace, carta de 1841 (tradução livre)</cite></blockquote>
+      <div class="botoes"><button id="btn-de-novo" class="btn dourado">Jogar novamente</button><button id="btn-vit-inicio" class="btn">Menu inicial</button></div>
+    </div>
+  </section>
+
+  <div id="toast" hidden></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
